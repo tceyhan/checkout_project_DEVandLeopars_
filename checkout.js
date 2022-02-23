@@ -1,37 +1,112 @@
-//Checkout
 
 let products = document.querySelectorAll(".product");
 let btnPlus = document.querySelectorAll(".fa-plus");
 let btnMinus = document.querySelectorAll(".fa-minus");
 let btnRemove = document.querySelectorAll(".remove-product");
 
-let subTotal = document.getElementById("cart-subtotal");
-let tax = document.getElementById("cart-tax");
-let shipping = document.getElementById("cart-shipping");
-let total = document.getElementById("cart-total");
+let cartSubtotal = document.querySelector('#cart-subtotal p:nth-child(2)');
+let cartTax = document.querySelector('#cart-tax p:nth-child(2)');
+let cartShipping = document.querySelector('#cart-shipping p:nth-child(2)');
+let cartTotal = document.querySelector('#cart-total p:nth-child(2)');
 
-let subTotal_value = 146.96;
-let tax_value = 26.45;
-let shipping_value = 15.0;
-let total_value = 188.91;
+let main = document.querySelector('main');
 
-let backBag = 25.98;
-let shoes = 45.99;
-let clock = 74.99;
+// Add event listeners to all the buttons
 
-btnPlus.forEach(event => {
-    event.addEventListener("click",(e) => {
-        let artış = e.target.parentElement.parentElement.children[1].innerHTML++;
+btnPlus.forEach(btnPlus => {
 
-        console.log(artış);
+    btnPlus.addEventListener("click",(e) => {  
 
-        e.target.parentElement.parentElement.parentElement.querySelector(".product-line-price").innerHTML = parseFloat(e.target.parentElement.parentElement.parentElement.querySelector("strong").innerHTML * (artış + 1)).toFixed(2);
+        let quantity = e.target.parentElement.parentElement.childNodes[3];
+        quantity.textContent = Number(quantity.textContent) + 1;
 
-        subTotal_value += parseFloat(e.target.parentElement.parentElement.parentElement.querySelector("strong").innerHTML);
+        let price = e.target.parentElement.parentElement.parentElement.childNodes[3].childNodes[1].childNodes[0];
+        // console.log(price.textContent);
+        let price_value = Number(price.textContent).toFixed(2);
 
-        subTotal.children[1].innerHTML = subTotal_value.toFixed(2);
-    })
-},false)
+        let product_total_price = e.target.parentElement.parentElement.parentElement.childNodes[9].childNodes[0];
+        console.log(product_total_price.textContent);
+        product_total_price.textContent = Number(price_value) * Number(quantity.textContent);
+        product_total_price_value = Number(product_total_price.textContent).toFixed(2);
+
+        price_All = document.getElementsByClassName('product-line-price');
+        let price_All_value = 0;
+        for(let i = 0; i < price_All.length; i++){
+            price_All_value += Number(price_All[i].textContent);
+        }
+        price_All_value = Number(price_All_value).toFixed(2);
+
+        cartSubtotal.textContent = price_All_value;
+        cartTax.textContent = Number(price_All_value * 0.18).toFixed(2);
+
+        cartShipping.textContent = 15.00.toFixed(2);
+        cartTotal.textContent = Number(cartSubtotal.textContent) + Number(cartTax.textContent) + Number(cartShipping.textContent);
+        cartTotal.textContent = Number(cartTotal.textContent).toFixed(2);
+    });
+});
+
+// event listener for minus button 
+
+btnMinus.forEach(btnMinus => {
+    btnMinus.addEventListener("click",(e) => {  
+
+        let quantity = e.target.parentElement.parentElement.childNodes[3];
+        if(quantity.textContent > 1){
+            quantity.textContent = Number(quantity.textContent) - 1;
+        }
+
+        let price = e.target.parentElement.parentElement.parentElement.childNodes[3].childNodes[1].childNodes[0];
+        // console.log(price.textContent);
+        let price_value = Number(price.textContent).toFixed(2);
+
+        let product_total_price = e.target.parentElement.parentElement.parentElement.childNodes[9].childNodes[0];
+        console.log(product_total_price.textContent);
+        product_total_price.textContent = Number(price_value) * Number(quantity.textContent);
+        product_total_price_value = Number(product_total_price.textContent).toFixed(2);
+
+        price_All = document.getElementsByClassName('product-line-price');
+        let price_All_value = 0;
+        for(let i = 0; i < price_All.length; i++){
+            price_All_value += Number(price_All[i].textContent);
+        }
+        price_All_value = Number(price_All_value).toFixed(2);
+
+        cartSubtotal.textContent = price_All_value;
+        cartTax.textContent = Number(price_All_value * 0.18).toFixed(2);
+
+        cartShipping.textContent = 15.00.toFixed(2);
+        cartTotal.textContent = Number(cartSubtotal.textContent) + Number(cartTax.textContent) + Number(cartShipping.textContent);
+        cartTotal.textContent = Number(cartTotal.textContent).toFixed(2);
+    });
+});
+
+// remove button event
+
+btnRemove.forEach(btnRemove => {
+    btnRemove.addEventListener("click",(e) => {  
+        e.target.parentElement.parentElement.parentElement.remove();
+        price_All = document.getElementsByClassName('product-line-price');
+
+        let price_All_value = 0;
+        for(let i = 0; i < price_All.length; i++){
+            price_All_value += Number(price_All[i].textContent);
+        }
+        price_All_value = Number(price_All_value).toFixed(2);
+
+        cartSubtotal.textContent = price_All_value;
+        cartTax.textContent = Number(price_All_value * 0.18).toFixed(2);
+
+        cartShipping.textContent = 15.00.toFixed(2);
+        cartTotal.textContent = Number(cartSubtotal.textContent) + Number(cartTax.textContent) + Number(cartShipping.textContent);
+        cartTotal.textContent = Number(cartTotal.textContent).toFixed(2);
+    });
+});
 
 
-console.log(btnPlus);
+
+        
+
+       
+
+
+
